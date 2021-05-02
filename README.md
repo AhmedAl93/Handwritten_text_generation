@@ -1,9 +1,10 @@
-# Text_recognition
+# Handwritten text Generation
+
+This repository presents a solution for handwritten text (HT) generation, using image processing techniques, in order to build custom HT datasets that are as realistic as possible. 
 
 ### Installation
 This repository was run with:
 - Python 3.7.3
-- Cuda 10.1
 
 Before installing the required packages, set up a virtual environment :
 - using venv: python -m venv venv
@@ -14,17 +15,19 @@ Then activate it:
 - using conda: conda activate venv
 
 To install the required packages, run :
-- pip install <package_name>==<package_version>
-
-To install PyTorch related packages (torch, torchvision & torchaudio), please refer to the [PyTorch guide](https://pytorch.org/get-started/previous-versions/). Depending on whether conda is used or not, the right command can be found there.
+- pip install -r requirements.txt
 
 ### Procedure
-A simple logic was adopted during the development phase, it consists of:
-- Generate large, artificial handwritten text dataset.
-- Train text recognition model on artificial dataset.
-- Once properly trained, finetune the model on the real handwritten text dataset.
+To use this repo, the first is to download a character dataset with different handwriting styles, Chars74k was chosen.
+Then the "Generate_Handwritten_text" notebook can be used to build datasets for various tasks (text segmentation, text recognition, ...). 
+This notebook uses methods in "Generation" class to generate images from strings, by :
+- Taking a handwritten character image from Char74k, for each character in the string.
+- Processing character image (dilation, resizing, border removing, ....)
+- Merging the processed character images to form a single image. 
 
-The reason behind this logic is the size of real dataset being too small (around 4k images), generating a big artificial dataset was necessary for the model to learn the writing patterns and features of each character.  
-Details regarding handwritten text generation and model training can be found in the notebooks Generate_Handwritten_text.ipynb and deep_text_recognition.ipynb respectively.
+Depending on the task type, the result would be multiple image sets (train, test, ...) with :
+- COCO annotations for segmentation tasks
+- Ground-truth text files for recognition tasks.
 
-Model implementation can be found [here](https://github.com/clovaai/deep-text-recognition-benchmark).
+If another character dataset is to be used, it should follow the same structure as Chars74k.
+Generation samples are provided in "Sample results" directory.
